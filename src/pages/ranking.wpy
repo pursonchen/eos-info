@@ -1,0 +1,19 @@
+<style>
+
+</style>
+
+<template>
+  <view class="container">
+    节点排名
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Ranking extends wepy.page {
+    config = {
+      navigationBarTitleText: 'EOS生产节点信息'
+    }
+  }
+</script>
