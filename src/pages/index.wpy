@@ -1,21 +1,69 @@
-<style type="css">
-.container {
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:space-between;
-    box-sizing:border-box;
+<style lang="less">
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  display: block;
+  border-radius: 50%;
+}
+.introduction {
+  font-size: 13px;
+  color: #888888;
+}
+
+.charts{
+  margin: 0;
+  width: 18rem;
+  height: 18rem;
+}
+
+.chartsb{
+  margin-top: 100px;
+  width: 18rem;
+  height: 18rem;
 }
 </style>
 <template>
-    <view class="container" >
-        <echarts  :ec="ec" />
+     <view class="page">
+    <view class="page__bd" >
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd ">
+            <view class="center"><image class="avatar" src="../images/eos.png"/></view>
+            <view class="center">$7.7677</view>
+            <view class="page__desc center" >≈52.82CNY(-5.11%)</view>
+            <view class="page__desc center" >交易量(24h): 8208570000EOS</view>
+            <view class="weui-media-box__info center">
+              <view class="weui-media-box__info__meta">市值: $6991659761</view>
+              <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">流通量: 896149492EOS</view>
+            </view>
+          </view>
+        </view>
+      </view>
+       <view class="weui-article">
+                <view class="weui-article__section">
+                    <view class="weui-article__section">
+                        <view class="weui-article__h3">美元价格（24h）</view>
+                        <view class="weui-article__p">
+                           <echarts class="charts" canvasId="ec-canvas" :ec="ec" />
+                        </view>
+
+                    </view>
+                    <view class="weui-article__section">
+                        <view class="weui-article__h3">RAM价格</view>
+                        <view class="weui-article__p">
+                            <echartsb class="chartsb" canvasId="ec-canvas1" :ec="ec2" />
+                        </view>
+                    </view>
+                </view>
+            </view>
+
     </view>
+  </view>
 </template>
 <script>
 import wepy from 'wepy'
@@ -23,11 +71,12 @@ import Echarts from '../components/echart'
 
 export default class Index extends wepy.page {
   config = {
-    'navigationBarTitleText': '示例'
+    'navigationBarTitleText': '统计数据'
   };
 
   components = {
-    echarts: Echarts
+    echarts: Echarts,
+    echartsb: Echarts
   }
 
   data = {
@@ -84,7 +133,61 @@ export default class Index extends wepy.page {
           ]
         }]
       }
-    }
+    },
+
+   ec2: {
+      option: {
+            title: {
+      text: '测试下面legend的红色区域不应被裁剪',
+      left: 'center'
+    },
+    color: ["#37A2DA", "#67E0E3", "#9FE6B8"],
+    legend: {
+      data: ['A', 'B', 'C'],
+      top: 50,
+      left: 'center',
+      backgroundColor: 'red',
+      z: 100
+    },
+    grid: {
+      containLabel: true
+    },
+
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      // show: false
+    },
+    yAxis: {
+      x: 'center',
+      type: 'value',
+      splitLine: {
+        lineStyle: {
+          type: 'dashed'
+        }
+      }
+      // show: false
+    },
+    series: [{
+      name: 'A',
+      type: 'line',
+      smooth: true,
+      data: [18, 36, 65, 30, 78, 40, 33]
+    }, {
+      name: 'B',
+      type: 'line',
+      smooth: true,
+      data: [12, 50, 51, 35, 70, 30, 20]
+    }, {
+      name: 'C',
+      type: 'line',
+      smooth: true,
+      data: [10, 30, 31, 50, 40, 20, 10]
+}]
+      }
+    },
+
   }
 
   methods = {

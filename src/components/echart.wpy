@@ -5,7 +5,7 @@
 }
 </style>
 <template>
-<canvas class="ec-canvas" canvas-id="ec-canvas"  bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+<canvas class="ec-canvas" canvas-id="{{canvasId}}"  bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
 </canvas>
 </template>
 <script>
@@ -16,12 +16,13 @@ import * as echarts from '../utils/ec-canvas/echarts';
 let ctx;
 export default class echart extends wepy.component {
     props = {
-        ec: {}
+        ec: {},
+        canvasId: String,
     };
 
-    data = {
-        canvasId: 'ec-canvas',
-    };
+    // data = {
+    //      canvasId: this.data.syncCanvasId,
+    //  };
 
     onLoad () {
         if (!this.data.ec) {
@@ -32,6 +33,7 @@ export default class echart extends wepy.component {
         if (!this.data.ec.lazyLoad) {
             this.init();
         }
+
     };
     initChart (canvas, width, height, option) {
         const chart = echarts.init(canvas, null, {
@@ -52,6 +54,7 @@ export default class echart extends wepy.component {
                 '#%E5%BE%AE%E4%BF%A1%E7%89%88%E6%9C%AC%E8%A6%81%E6%B1%82');
             return;
         }
+        console.log('init' + this.data.canvasId);
         ctx = wepy.createCanvasContext(this.data.canvasId, this);
 
         const canvas = new WxCanvas(ctx, this.data.canvasId);

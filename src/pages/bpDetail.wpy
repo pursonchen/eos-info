@@ -1,0 +1,55 @@
+<style lang="less">
+.weui-media-box__info__meta {
+  margin: 0;
+  font-size: 12px;
+}
+.bp-info {
+  margin-top: 5px;
+}
+.bp-name {
+  white-space: normal;
+  font-size: 14px;
+}
+.rank {
+  background-color: #d8d8d8;
+  float: right;
+}
+</style>
+
+<template>
+<view class="weui-panel weui-panel_access">
+    <view class="weui-panel__bd">
+
+
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title bp-name">{{ blockProducers.name }}</view>
+            <view class="weui-media-box__info bp-info">
+              <view class="weui-media-box__info__meta">{{ blockProducers.site }} • </view>
+              <view class="weui-media-box__info__meta">票数{{ blockProducers.votes }} • </view>
+              <view class="weui-media-box__info__meta">每日奖励{{ blockProducers.award }}</view>
+            </view>
+          </view>
+          <view class="weui-badge rank">#{{ blockProducers.rank }}</view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class BpDetail extends wepy.page {
+
+  data = {
+     // 节点数据
+      blockProducers:
+      {
+      name:'bitfinexeos1',
+      site:'https://www.bitfinex.com',
+      votes:'80298461(2.73%)',
+      award:'953EOS',
+      rank:1
+      },
+
+
+  }
+}
+</script>
