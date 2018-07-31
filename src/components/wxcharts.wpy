@@ -1,0 +1,66 @@
+<style type="css">
+.lineCanvas {
+  width: 100%;
+  height: 100%;
+}
+</style>
+<template>
+<canvas  canvasId="{{canvasId}}"  ></canvas>
+</template>
+<script>
+import wepy from 'wepy';
+import wxCharts from '../utils/wxcharts-min';
+
+export default class Wxcharts extends wepy.component {
+    props = {
+
+      syncCategories: {
+        type: Object,
+        default: ['2012', '2013', '2014', '2015', '2016', '2017']
+      },
+      // 父页面传入，请求url
+      syncSeries: {
+        type: Object,
+        default: [{
+        name: '成交量1',
+        data: [0.15, 0.2, 0.45, 0.37, 0.4, 0.8],
+        format: function (val) {
+            return val.toFixed(2) + '万';
+        }
+    }, ]
+      },
+      canvasId: String,
+
+
+    };
+
+    // data = {
+    //      canvasId: this.data.syncCanvasId,
+    //  };
+
+    onLoad () {
+        if (!this.data.canvasId) {
+            console.warn('组件需绑定 canvasId 变量，例：<wx-canvas id="mychart-dom-bar" ' +
+                'canvas-id="mychart-bar" ></wx-canvas>');
+            return;
+        }
+
+    new wxCharts({
+    canvasId: this.data.canvasId,
+    type: 'line',
+    categories: this.data.syncCategories,
+    series: this.data.syncSeries,
+    yAxis: {
+        title: '成交金额 (万元)',
+        format: function (val) {
+            return val.toFixed(2);
+        },
+        min: 0
+    },
+    width: 300,
+    height: 200
+});
+
+    };
+}
+</script>

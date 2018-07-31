@@ -22,7 +22,7 @@
 }
 
 .chartsb{
-  margin-top: 100px;
+  margin:0;
   width: 18rem;
   height: 18rem;
 }
@@ -49,14 +49,14 @@
                     <view class="weui-article__section">
                         <view class="weui-article__h3">美元价格（24h）</view>
                         <view class="weui-article__p">
-                           <echarts class="charts" canvasId="ec-canvas" :ec="ec" />
+                           <wxcharts class="charts" canvasId="lineCanvas"></wxcharts>
                         </view>
 
                     </view>
                     <view class="weui-article__section">
                         <view class="weui-article__h3">RAM价格</view>
                         <view class="weui-article__p">
-                            <echartsb class="chartsb" canvasId="ec-canvas1" :ec="ec2" />
+                            <wxcharts2 class="chartsb" canvasId="lineCanvas2"></wxcharts2>
                         </view>
                     </view>
                 </view>
@@ -67,7 +67,7 @@
 </template>
 <script>
 import wepy from 'wepy'
-import Echarts from '../components/echart'
+import Wxcharts from '../components/wxcharts'
 
 export default class Index extends wepy.page {
   config = {
@@ -75,118 +75,13 @@ export default class Index extends wepy.page {
   };
 
   components = {
-    echarts: Echarts,
-    echartsb: Echarts
+    wxcharts: Wxcharts,
+    wxcharts2: Wxcharts,
+
   }
 
   data = {
-    ec: {
-      option: {
-        backgroundColor: '#ffffff',
-        color: ['#37A2DA', '#FF9F7F'],
-        tooltip: {},
-        xAxis: {
-          show: false
-        },
-        yAxis: {
-          show: false
-        },
-        radar: {
-                    // shape: 'circle',
-          indicator: [{
-            name: '食品',
-            max: 500
-          },
-          {
-            name: '玩具',
-            max: 500
-          },
-          {
-            name: '服饰',
-            max: 500
-          },
-          {
-            name: '绘本',
-            max: 500
-          },
-          {
-            name: '医疗',
-            max: 500
-          },
-          {
-            name: '门票',
-            max: 500
-          }
-          ]
-        },
-        series: [{
-          name: '预算 vs 开销',
-          type: 'radar',
-          data: [{
-            value: [430, 340, 500, 300, 490, 400],
-            name: '预算'
-          },
-          {
-            value: [300, 430, 150, 300, 420, 250],
-            name: '开销'
-          }
-          ]
-        }]
-      }
-    },
 
-   ec2: {
-      option: {
-            title: {
-      text: '测试下面legend的红色区域不应被裁剪',
-      left: 'center'
-    },
-    color: ["#37A2DA", "#67E0E3", "#9FE6B8"],
-    legend: {
-      data: ['A', 'B', 'C'],
-      top: 50,
-      left: 'center',
-      backgroundColor: 'red',
-      z: 100
-    },
-    grid: {
-      containLabel: true
-    },
-
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-      // show: false
-    },
-    yAxis: {
-      x: 'center',
-      type: 'value',
-      splitLine: {
-        lineStyle: {
-          type: 'dashed'
-        }
-      }
-      // show: false
-    },
-    series: [{
-      name: 'A',
-      type: 'line',
-      smooth: true,
-      data: [18, 36, 65, 30, 78, 40, 33]
-    }, {
-      name: 'B',
-      type: 'line',
-      smooth: true,
-      data: [12, 50, 51, 35, 70, 30, 20]
-    }, {
-      name: 'C',
-      type: 'line',
-      smooth: true,
-      data: [10, 30, 31, 50, 40, 20, 10]
-}]
-      }
-    },
 
   }
 
