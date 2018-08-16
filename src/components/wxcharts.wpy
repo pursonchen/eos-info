@@ -5,7 +5,8 @@
 }
 </style>
 <template>
-<canvas  canvasId="{{canvasId}}"  ></canvas>
+<canvas  canvasId="lineCanvas"  ></canvas>
+<canvas  canvasId="lineCanvas2"  ></canvas>
 </template>
 <script>
 import wepy from 'wepy';
