@@ -87,30 +87,30 @@
     }
 
     components = {
-     ranklist: RankList
-  }
+      ranklist: RankList
+    }
 
-  data = {
+    data = {
 
-    bps:[],
-    inputShowed: false,
-    inputVal: ''
-  }
+      bps: [],
+      inputShowed: false,
+      inputVal: ''
+    }
 
-          methods = {
-            showInput () {
-                this.inputShowed = true;
-            },
-            hideInput () {
-                this.inputVal = '';
-                this.inputShowed = false;
-            },
-            clearInput () {
-                this.inputVal = '';
-            },
-            inputTyping (e) {
-                this.inputVal = e.detail.value;
-            }
-        }
+    methods = {
+      showInput () {
+        this.inputShowed = true
+      },
+      hideInput () {
+        this.inputVal = ''
+        this.inputShowed = false
+      },
+      clearInput () {
+        this.inputVal = ''
+      },
+      inputTyping (e) {
+        this.inputVal = e.detail.value
+      }
+    }
   }
 </script>

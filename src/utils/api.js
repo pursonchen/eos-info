@@ -39,11 +39,6 @@ const request = async (options, showLoading = true) => {
   return response
 }
 
-
-
-
-
-
 export default {
-  request,
+  request
 }

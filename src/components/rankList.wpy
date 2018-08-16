@@ -47,32 +47,31 @@
   export default class RankList extends wepy.component {
     data = {
 
-
       // 有没有更多数据
       noMoreData: false,
       // 是否在加载中
       isLoading: false,
       // 节点数据
       blockProducers: [
-      {
-      name:'bitfinexeos1',
-      site:'https://www.bitfinex.com',
-      votes:'80298461(2.73%)',
-      award:'953EOS',
-      rank:1
-      },{
-      name:'eoscanadacom',
-      site:'https://www.eoscanada.com',
-      votes:'77604901(2.64%)',
-      award:'932EOS',
-      rank:2
-      },{
-      name:'eosnewyorkio',
-      site:'https://bp.eosnewyork.io',
-      votes:'77411702(2.63%)',
-      award:'930EOS',
-      rank:3
-      },
+        {
+          name: 'bitfinexeos1',
+          site: 'https://www.bitfinex.com',
+          votes: '80298461(2.73%)',
+          award: '953EOS',
+          rank: 1
+        }, {
+          name: 'eoscanadacom',
+          site: 'https://www.eoscanada.com',
+          votes: '77604901(2.64%)',
+          award: '932EOS',
+          rank: 2
+        }, {
+          name: 'eosnewyorkio',
+          site: 'https://bp.eosnewyork.io',
+          votes: '77411702(2.63%)',
+          award: '930EOS',
+          rank: 3
+        }
 
       ]
     }

@@ -37,18 +37,16 @@
 <script>
 import wepy from 'wepy'
 export default class BpDetail extends wepy.page {
-
   data = {
      // 节点数据
-      blockProducers:
-      {
-      name:'bitfinexeos1',
-      site:'https://www.bitfinex.com',
-      votes:'80298461(2.73%)',
-      award:'953EOS',
-      rank:1
-      },
-
+    blockProducers:
+    {
+      name: 'bitfinexeos1',
+      site: 'https://www.bitfinex.com',
+      votes: '80298461(2.73%)',
+      award: '953EOS',
+      rank: 1
+    }
 
   }
 }

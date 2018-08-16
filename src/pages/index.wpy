@@ -34,12 +34,12 @@
         <view class="weui-cell">
           <view class="weui-cell__bd ">
             <view class="center"><image class="avatar" src="../images/eos.png"/></view>
-            <view class="center">$7.7677</view>
-            <view class="page__desc center" >≈52.82CNY(-5.11%)</view>
-            <view class="page__desc center" >交易量(24h): 8208570000EOS</view>
+            <view class="center">{{ eosinfo.againstUSD }}</view>
+            <view class="page__desc center" >≈{{eosinfo.coinPrice}}({{range[1]}})</view>
+            <view class="page__desc center" >交易量(24h): {{eosinfo.volume}}</view>
             <view class="weui-media-box__info center">
-              <view class="weui-media-box__info__meta">市值: $6991659761</view>
-              <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">流通量: 896149492EOS</view>
+              <view class="weui-media-box__info__meta">市值: </br>{{eosinfo.marketValue}}</view>
+              <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">流通量: </br>{{eosinfo.turnover}}</view>
             </view>
           </view>
         </view>
@@ -49,14 +49,14 @@
                     <view class="weui-article__section">
                         <view class="weui-article__h3">美元价格（24h）</view>
                         <view class="weui-article__p">
-                           <wxcharts class="charts" canvasId="lineCanvas"></wxcharts>
+                           <!-- <wxcharts class="charts" canvasId="lineCanvas"></wxcharts> -->
                         </view>
 
                     </view>
                     <view class="weui-article__section">
                         <view class="weui-article__h3">RAM价格</view>
                         <view class="weui-article__p">
-                            <wxcharts2 class="chartsb" canvasId="lineCanvas2"></wxcharts2>
+                            <!-- <wxcharts2 class="chartsb" canvasId="lineCanvas2"></wxcharts2> -->
                         </view>
                     </view>
                 </view>
@@ -67,7 +67,6 @@
 </template>
 <script>
 import wepy from 'wepy'
-import Wxcharts from '../components/wxcharts'
 import api from '@/utils/api'
 
 export default class Index extends wepy.page {
@@ -76,37 +75,35 @@ export default class Index extends wepy.page {
   };
 
   components = {
-    wxcharts: Wxcharts,
-    wxcharts2: Wxcharts,
 
   }
 
   data = {
-            eosinfo: '',
-            //币种名称
-             coinName :'',
+    eosinfo: '',
+            // 币种名称
+    coinName: '',
             // 币种代码
-             coinCode :'',
+    coinCode: '',
             // 币价
-             coinPrice :'',
-            //币价日同比
-             range :'',
+    coinPrice: '',
+            // 币价日同比
+    range: '',
             // 币价对美元
-             againstUSD :'',
+    againstUSD: '',
             // 24小时最高价
-             heigth24H :'',
+    heigth24H: '',
             // 24小时最低价
-             low24H :'',
-            //24小时成交额
-             volume :'',
+    low24H: '',
+            // 24小时成交额
+    volume: '',
             // 24小时换手率
-             turnoverRate:'',
-            //流通市值
-             marketValue:'',
-            //流通量
-             turnover:'',
-            //发行量
-             distribution :'',
+    turnoverRate: '',
+            // 流通市值
+    marketValue: '',
+            // 流通量
+    turnover: '',
+            // 发行量
+    distribution: ''
 
   }
 
@@ -116,26 +113,24 @@ export default class Index extends wepy.page {
   onShow () {
 
   }
-  onLoad () {
-     this.eosinfo = this.getEosInfo()
-     this.$apply()
+  async onLoad () {
+    this.eosinfo = await this.getEosInfo()
+    this.range = this.eosinfo.split('>')
+    console.log(this.eosinfo)
+    this.$apply()
   }
 
-  async getEosInfo()
-  {
+  async getEosInfo() {
     try {
       // 登录了但是缓存中没有，请求接口获取
 
-        let eosInfoResponse = await api.request('eosinfo')
+      let eosInfoResponse = await api.request('eosinfo')
         // 状态码为 200 表示请求成功
         //
 
-        if (eosInfoResponse.statusCode === 200) {
-
-        return eosInfoResponse.data;
-        }
-
-
+      if (eosInfoResponse.statusCode === 200) {
+        return eosInfoResponse.data
+      }
     } catch (err) {
       console.log(err)
       wepy.showModal({
@@ -143,7 +138,6 @@ export default class Index extends wepy.page {
         content: '服务器错误，请联系管理员'
       })
     }
-
   }
 }
 </script>
