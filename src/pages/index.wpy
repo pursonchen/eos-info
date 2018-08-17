@@ -49,16 +49,16 @@
                     <view class="weui-article__section">
                         <view class="weui-article__h3">美元价格（24h）</view>
                         <view class="weui-article__p">
-                           <!-- <wxcharts class="charts" canvasId="lineCanvas"></wxcharts> -->
+                           <view id="charts"></view>
                         </view>
 
                     </view>
-                    <view class="weui-article__section">
+    <!--                 <view class="weui-article__section">
                         <view class="weui-article__h3">RAM价格</view>
                         <view class="weui-article__p">
-                            <!-- <wxcharts2 class="chartsb" canvasId="lineCanvas2"></wxcharts2> -->
-                        </view>
-                    </view>
+                            wxcharts2 class="chartsb" canvasId="lineCanvas2"></wxcharts2>
+                                                    </view>
+                    </view> -->
                 </view>
             </view>
 
@@ -68,6 +68,8 @@
 <script>
 import wepy from 'wepy'
 import api from '@/utils/api'
+import Highcharts from 'highcharts'
+import Exporting from 'highcharts/modules/exporting'
 
 export default class Index extends wepy.page {
   config = {
@@ -110,14 +112,43 @@ export default class Index extends wepy.page {
   methods = {
 
   }
-  onShow () {
-
+  async onShow () {
+    await this.showCharts(this.eosinfo.price_usd)
   }
   async onLoad () {
     this.eosinfo = await this.getEosInfo()
-    this.range = this.eosinfo.split('>')
+    this.range = this.eosinfo.range.split('>')
     console.log(this.eosinfo)
+
     this.$apply()
+  }
+
+  async showCharts(data) {
+    Exporting(Highcharts)
+
+    Highcharts.stockChart('charts', {
+
+      rangeSelector: {
+        selected: 1
+      },
+
+      title: {
+        text: '美元价格（24h）'
+      },
+      subtitle: {
+        text: document.ontouchstart === undefined
+                    ? 'Click and drag in the plot area to zoom in'
+                    : 'Pinch the chart to zoom in'
+      },
+
+      series: [{
+        name: 'Price',
+        data: data,
+        tooltip: {
+          valueDecimals: 2
+        }
+      }]
+    })
   }
 
   async getEosInfo() {
