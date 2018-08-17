@@ -68,8 +68,6 @@
 <script>
 import wepy from 'wepy'
 import api from '@/utils/api'
-import Highcharts from 'highcharts'
-import Exporting from 'highcharts/modules/exporting'
 
 export default class Index extends wepy.page {
   config = {
@@ -113,7 +111,7 @@ export default class Index extends wepy.page {
 
   }
   async onShow () {
-    await this.showCharts(this.eosinfo.price_usd)
+
   }
   async onLoad () {
     this.eosinfo = await this.getEosInfo()
@@ -124,31 +122,7 @@ export default class Index extends wepy.page {
   }
 
   async showCharts(data) {
-    Exporting(Highcharts)
 
-    Highcharts.stockChart('charts', {
-
-      rangeSelector: {
-        selected: 1
-      },
-
-      title: {
-        text: '美元价格（24h）'
-      },
-      subtitle: {
-        text: document.ontouchstart === undefined
-                    ? 'Click and drag in the plot area to zoom in'
-                    : 'Pinch the chart to zoom in'
-      },
-
-      series: [{
-        name: 'Price',
-        data: data,
-        tooltip: {
-          valueDecimals: 2
-        }
-      }]
-    })
   }
 
   async getEosInfo() {
