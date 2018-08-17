@@ -15,17 +15,12 @@
   color: #888888;
 }
 
-.charts{
+.canvas{
   margin: 0;
-  width: 18rem;
-  height: 18rem;
+  width: 80%;
+  height: 300px;
 }
 
-.chartsb{
-  margin:0;
-  width: 18rem;
-  height: 18rem;
-}
 </style>
 <template>
      <view class="page">
@@ -49,7 +44,7 @@
                     <view class="weui-article__section">
                         <view class="weui-article__h3">美元价格（24h）</view>
                         <view class="weui-article__p">
-                           <view id="charts"></view>
+                            <canvas canvas-id="lineCanvas" class="canvas"></canvas>
                         </view>
 
                     </view>
@@ -68,6 +63,8 @@
 <script>
 import wepy from 'wepy'
 import api from '@/utils/api'
+import utils from '@/utils/util'
+import Charts from '@/utils/wxcharts'
 
 export default class Index extends wepy.page {
   config = {
@@ -79,31 +76,15 @@ export default class Index extends wepy.page {
   }
 
   data = {
+
+    // 返回币数据
     eosinfo: '',
-            // 币种名称
-    coinName: '',
-            // 币种代码
-    coinCode: '',
-            // 币价
-    coinPrice: '',
-            // 币价日同比
+
+    // 币价变化率
     range: '',
-            // 币价对美元
-    againstUSD: '',
-            // 24小时最高价
-    heigth24H: '',
-            // 24小时最低价
-    low24H: '',
-            // 24小时成交额
-    volume: '',
-            // 24小时换手率
-    turnoverRate: '',
-            // 流通市值
-    marketValue: '',
-            // 流通量
-    turnover: '',
-            // 发行量
-    distribution: ''
+
+    // x轴分类
+    categories: ''
 
   }
 
@@ -112,19 +93,69 @@ export default class Index extends wepy.page {
   }
   async onShow () {
 
+
+
   }
+
   async onLoad () {
+
     this.eosinfo = await this.getEosInfo()
     this.range = this.eosinfo.range.split('>')
-    console.log(this.eosinfo)
+
+     await this.showSingleLineCharts(this.eosinfo.price_usd)
+    console.log(this.eosinfo.price_usd)
 
     this.$apply()
   }
 
-  async showCharts(data) {
+  async showSingleLineCharts(data) {
+    let windowWidth = 320
+    let categories = []
+    let seriesData = []
+    let len = data.length
+    // 处理数据的x轴,相隔16个时点
+       for(let j = 0; j < len; j=j+36) {
+       categories.push(utils.timetrans(data[j][0]))
+     }
+     console.log(categories)
+    // 处理数据的y轴
+       for(let j = 0; j < len; j=j+36) {
+        seriesData.push(data[j][1])
+     }
 
-  }
+    try {
+      let res = wx.getSystemInfoSync()
+      windowWidth = res.windowWidth
+      console.log(windowWidth)
+    } catch (e) {
+        // do something when get system info failed
+    }
 
+    new Charts({
+    canvasId: 'lineCanvas',
+    type: 'line',
+    categories: categories,
+    series: [{
+        name: '成交价格',
+        data: seriesData,
+        format: function (val) {
+            return val.toFixed(2);
+        }
+    },],
+    yAxis: {
+        title: 'USD',
+        format: function (val) {
+            return val.toFixed(2);
+        },
+        min: 4
+    },
+    width: windowWidth,
+    height: 300,
+    extra: {
+        lineStyle: 'curve'
+    }
+});
+}
   async getEosInfo() {
     try {
       // 登录了但是缓存中没有，请求接口获取
