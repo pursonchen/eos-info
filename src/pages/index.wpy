@@ -17,7 +17,7 @@
 
 .canvas{
   margin: 0;
-  width: 80%;
+  width: 100%;
   height: 300px;
 }
 
@@ -83,8 +83,14 @@ export default class Index extends wepy.page {
     // 币价变化率
     range: '',
 
-    // x轴分类
-    categories: ''
+    // 图表取样间隙 每隔36个点取样，共288个点
+    margin: 36,
+
+    // 刷新时间
+    refreshTime: 40000
+
+
+
 
   }
 
@@ -99,13 +105,30 @@ export default class Index extends wepy.page {
 
   async onLoad () {
 
+
+    await this.showInfo()
+
+  }
+
+  async showInfo () {
+
+
     this.eosinfo = await this.getEosInfo()
     this.range = this.eosinfo.range.split('>')
-
-     await this.showSingleLineCharts(this.eosinfo.price_usd)
-    console.log(this.eosinfo.price_usd)
-
+    await this.showSingleLineCharts(this.eosinfo.price_usd)
     this.$apply()
+
+    await this.refreshPage()
+  }
+
+ async refreshPage() {
+ let that = this
+   setInterval(async ()=>{
+    await that.showInfo ()
+},that.refreshTime);
+
+   await that.refreshPage()
+
   }
 
   async showSingleLineCharts(data) {
@@ -114,12 +137,12 @@ export default class Index extends wepy.page {
     let seriesData = []
     let len = data.length
     // 处理数据的x轴,相隔16个时点
-       for(let j = 0; j < len; j=j+36) {
+       for(let j = 0; j < len; j=j+this.margin) {
        categories.push(utils.timetrans(data[j][0]))
      }
      console.log(categories)
     // 处理数据的y轴
-       for(let j = 0; j < len; j=j+36) {
+       for(let j = 0; j < len; j=j+this.margin) {
         seriesData.push(data[j][1])
      }
 
@@ -158,7 +181,7 @@ export default class Index extends wepy.page {
 }
   async getEosInfo() {
     try {
-      // 登录了但是缓存中没有，请求接口获取
+
 
       let eosInfoResponse = await api.request('eosinfo')
         // 状态码为 200 表示请求成功
