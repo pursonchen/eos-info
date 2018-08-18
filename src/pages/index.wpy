@@ -87,7 +87,7 @@ export default class Index extends wepy.page {
     margin: 36,
 
     // 刷新时间
-    refreshTime: 40000
+    refreshTime: 30000
 
 
 
@@ -112,24 +112,20 @@ export default class Index extends wepy.page {
 
   async showInfo () {
 
-
+    let that = this
     this.eosinfo = await this.getEosInfo()
     this.range = this.eosinfo.range.split('>')
     await this.showSingleLineCharts(this.eosinfo.price_usd)
     this.$apply()
 
-    await this.refreshPage()
-  }
-
- async refreshPage() {
- let that = this
    setInterval(async ()=>{
-    await that.showInfo ()
-},that.refreshTime);
 
-   await that.refreshPage()
+    await that.showInfo ()
+
+       },that.refreshTime);
 
   }
+
 
   async showSingleLineCharts(data) {
     let windowWidth = 320
