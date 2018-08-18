@@ -105,8 +105,14 @@ export default class Index extends wepy.page {
 
   async onLoad () {
 
+try {
 
     await this.showInfo()
+}
+catch(e){
+
+}
+
 
   }
 
@@ -114,7 +120,7 @@ export default class Index extends wepy.page {
 
     let that = this
     this.eosinfo = await this.getEosInfo()
-    this.range = this.eosinfo.range.split('>')
+    this.range = !this.eosinfo.range ? this.eosinfo.range.split('>') : this.range
     await this.showSingleLineCharts(this.eosinfo.price_usd)
     this.$apply()
 
@@ -124,6 +130,7 @@ export default class Index extends wepy.page {
 
        },that.refreshTime);
 
+    return
   }
 
 
