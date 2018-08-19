@@ -87,8 +87,10 @@ export default class Index extends wepy.page {
     margin: 36,
 
     // 刷新时间
-    refreshTime: 30000
+    refreshTime: 30000,
 
+    //刷新计数器,防止递归返回多次访问api
+    refreshCount: 0,
 
 
 
@@ -118,6 +120,7 @@ catch(e){
 
   async showInfo () {
 
+    if(this.refreshCount >= 1) return
     let that = this
     this.eosinfo = await this.getEosInfo()
     this.range = !this.eosinfo.range ? this.eosinfo.range.split('>') : this.range
@@ -125,12 +128,10 @@ catch(e){
     this.$apply()
 
    setInterval(async ()=>{
-
+    that.refreshCount++
     await that.showInfo ()
 
        },that.refreshTime);
-
-    return
   }
 
 
@@ -139,7 +140,7 @@ catch(e){
     let categories = []
     let seriesData = []
     let len = data.length
-    // 处理数据的x轴,相隔16个时点
+    // 处理数据的x轴
        for(let j = 0; j < len; j=j+this.margin) {
        categories.push(utils.timetrans(data[j][0]))
      }
