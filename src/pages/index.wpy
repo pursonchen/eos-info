@@ -99,6 +99,24 @@ export default class Index extends wepy.page {
   methods = {
 
   }
+// 分享标题
+  onShareAppMessage (res) {
+      return {
+        // 标题是话题标题
+        title: 'eos实时信息',
+        // 路径为话题详情路径
+        path: '/pages/index',
+        success: function(res) {
+          // 转发成功
+          console.log(res)
+        },
+        fail: function(res) {
+          // 转发失败
+          console.log(res)
+        }
+      }
+    }
+
   async onShow () {
 
 
@@ -200,4 +218,6 @@ export default class Index extends wepy.page {
     }
   }
 }
+
+
 </script>
